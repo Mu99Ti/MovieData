@@ -52,7 +52,8 @@ extension ViewController: UITableViewDelegate {
 }
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 30
+    https://image.tmdb.org/t/p/w200/
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,7 +82,7 @@ extension ViewController {
         private lazy var titleLabel: UILabel = {
             let label = UILabel()
             label.text = "teدمنپدکپنمپمنskjk;jkjjlkl;klklt"
-            label.numberOfLines = 1
+            label.numberOfLines = 0
             label.font = UIFont(name: "Arial", size: 30)
             return label
         }()
