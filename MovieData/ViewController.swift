@@ -9,6 +9,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var movies: [Model.ResultModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
@@ -21,6 +29,7 @@ class ViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
         tableView.register(ViewController.Cell.self, forCellReuseIdentifier: ViewController.Cell.reuseIdentifier)
         return tableView
     }()
@@ -40,13 +49,13 @@ class ViewController: UIViewController {
     }
     
     func fetchMovies(_ keyword: String) {
-        let url = URL(string: "https://api.themoviedb.org/3/search/movie?page=1&api_key=852ffe4cfff2346ad60b709d653c5ea3&query=\(keyword)")!
+        guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?page=1&api_key=852ffe4cfff2346ad60b709d653c5ea3&query=\(keyword)") else { return }
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data {
                 do {
                     let decoded = try JSONDecoder().decode(Model.self, from: data)
-                    print("The json is successfully decoded:", decoded)
+                    self.movies = decoded.results
                 } catch {
                     print(String(describing: error))
                 }
@@ -56,8 +65,15 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            movies.removeAll()
+        }
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        var keyword = searchBar.searchTextField.text
+        let keyword = searchBar.searchTextField.text
         if let keyword {
             fetchMovies(keyword)
         }
@@ -65,13 +81,19 @@ extension ViewController: UISearchBarDelegate {
 }
 
 extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 140
     }
 }
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 30
+        print(movies.count)
+        return movies.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,11 +101,11 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ViewController.Cell.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ViewController.Cell.reuseIdentifier, for: indexPath) as! ViewController.Cell
+        let movieID = movies[indexPath.item]
+        cell.configure(title: movieID.title!, date: movieID.releaseDate!)
         return cell
     }
-    
-    
 }
 
 extension ViewController {
@@ -94,24 +116,24 @@ extension ViewController {
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .vertical
             stackView.distribution = .fillProportionally
+            stackView.spacing = 0
             return stackView
         }()
         
         private lazy var titleLabel: UILabel = {
             let label = UILabel()
-            label.text = "teدمنپدکپنمپمنskjk;jkjjlkl;klklt"
             label.numberOfLines = 0
-            label.font = UIFont(name: "Arial", size: 30)
+            label.font = UIFont(name: "Arial", size: 25)
+            label.lineBreakMode = .byWordWrapping
+            label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
         
         private lazy var dateLabel: UILabel = {
             let label = UILabel()
-            label.text = "teتنتkjljljklohhhlhjkhjlkhjlhjllhjjlljjklkljjklنمتمنتمننمپدمننمتنممst"
-            label.numberOfLines = 1
+            label.font = UIFont(name: "Arial", size: 20)
             return label
         }()
-        
         
         private lazy var movieImageView: UIImageView = {
             let imageView = UIImageView()
@@ -120,7 +142,6 @@ extension ViewController {
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
-        
         
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -133,21 +154,19 @@ extension ViewController {
             
             // top and leading positive, bottom trailing negative
             NSLayoutConstraint.activate([
-                labelsStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-                labelsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-                labelsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+                labelsStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                labelsStackView.topAnchor.constraint(lessThanOrEqualTo: self.topAnchor, constant: 20),
+                labelsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+                labelsStackView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -20),
                 labelsStackView.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor)
             ])
             
             NSLayoutConstraint.activate([
-                movieImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-                movieImageView.trailingAnchor.constraint(equalTo: labelsStackView.leadingAnchor),
-                movieImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+                movieImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
                 movieImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                movieImageView.widthAnchor.constraint(equalToConstant: 100)
+                movieImageView.widthAnchor.constraint(equalToConstant: 100),
+                movieImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 3/5)
             ])
-            
-            
         }
         
         required init?(coder: NSCoder) {
@@ -161,6 +180,11 @@ extension ViewController {
         func configure(title: String, image: UIImage, date: String) {
             titleLabel.text = title
             movieImageView.image = image
+            dateLabel.text = date
+        }
+        
+        func configure(title: String, date: String) {
+            titleLabel.text = title
             dateLabel.text = date
         }
         
@@ -185,40 +209,21 @@ struct Model: Decodable {
 extension Model {
     struct ResultModel: Decodable {
        
-//        var adult: Bool
-//        var backdropPath: String?
         var id: Int
-//        var originalLanguage: String?
-//        var originalTitle: String?
-//        var overView: String?
-//        var popularity: Double?
-        var posterPath: String?
+        private var posterPath: String?
         var releaseDate: String?
         var title: String?
-//        var video: Bool
-//        var voteAverage: CGFloat?
-//        var voteCount: Int64?
-        
-        
+
         var posterImageURL: URL? {
             let url = URL(string: "https://image.tmdb.org/t/p/w200\(String(describing: posterPath))")
             return url
         }
      
         enum CodingKeys: String, CodingKey {
-//            case backdropPath = "backdrop_path"
             case id
-//            case originalLanguage = "original_language"
-//            case originalTitle = "original_title"
-//            case overView = "overview"
-//            case popularity
             case posterPath = "poster_path"
             case releaseDate = "release_date"
             case title
-//            case video
-//            case adult
-//            case voteAverage = "vote_average"
-//            case voteCount = "vote_count"
         }
     }
 }
