@@ -6,11 +6,8 @@
 //
 
 import UIKit
-import Kingfisher
 
 class MovieDataTableViewCell: UITableViewCell {
-    
-    weak var delegate: ModelDataDelegate?
     
     private lazy var labelsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -77,18 +74,13 @@ class MovieDataTableViewCell: UITableViewCell {
     static var reuseIdentifier: String {
         return String.init(describing: self.self)
     }
+    
     // overloading func in swift by setting it optional and give a default value
     func configure(title: String?, posterUrl: URL?, date: String?) {
         titleLabel.text = title
         self.movieImageView.loadImage(posterUrl)
         dateLabel.text = date
     }
-    
-    func fetchModelData() {
-        
-        
-    }
-    
 }
     
 

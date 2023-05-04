@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import Kingfisher
 
 class MovieDetailViewController: UIViewController {
     
-    let movie: Model.ResultModel
+    private let movie: Model.ResultModel
     
     private lazy var detailsScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -63,7 +62,7 @@ class MovieDetailViewController: UIViewController {
         configureDetailViewController()
         
         self.title = "Movie Detail"
-        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Arial Bold", size: 25)]
+        self.navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Arial Bold", size: 25) as Any]
         
         
         view.backgroundColor = .systemBackground
@@ -99,6 +98,7 @@ class MovieDetailViewController: UIViewController {
 
 extension MovieDetailViewController {
     private func configureDetailViewController() {
+        
         self.detailsLabel.text = movie.overView
         self.movieDetailImageView.loadImage(movie.detailsPosterImageURL)
         self.titleLabel.text = movie.title

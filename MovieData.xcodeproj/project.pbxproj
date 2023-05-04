@@ -14,7 +14,6 @@
 		7B7EBA6A29FFF0A4003023C3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7EBA6929FFF0A4003023C3 /* MovieDetailViewController.swift */; };
 		7B7EBA6C2A000D37003023C3 /* MovieDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7EBA6B2A000D37003023C3 /* MovieDataTableViewCell.swift */; };
 		7B7EBA712A024639003023C3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7B7EBA702A024639003023C3 /* Kingfisher */; };
-		7B7EBA732A025714003023C3 /* ModelDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7EBA722A025714003023C3 /* ModelDataDelegate.swift */; };
 		7B7EBA752A028718003023C3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7EBA742A028718003023C3 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 		7B2B350F29F9326600D8085B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7B7EBA6929FFF0A4003023C3 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		7B7EBA6B2A000D37003023C3 /* MovieDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDataTableViewCell.swift; sourceTree = "<group>"; };
-		7B7EBA722A025714003023C3 /* ModelDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDataDelegate.swift; sourceTree = "<group>"; };
 		7B7EBA742A028718003023C3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,7 +65,6 @@
 				7B2B34FF29F6A50A00D8085B /* ViewController.swift */,
 				7B7EBA6B2A000D37003023C3 /* MovieDataTableViewCell.swift */,
 				7B7EBA742A028718003023C3 /* Extensions.swift */,
-				7B7EBA722A025714003023C3 /* ModelDataDelegate.swift */,
 				7B2B350F29F9326600D8085B /* Model.swift */,
 				7B2B350429F6A50B00D8085B /* Assets.xcassets */,
 				7B2B350929F6A50B00D8085B /* Info.plist */,
@@ -153,7 +150,6 @@
 				7B7EBA6A29FFF0A4003023C3 /* MovieDetailViewController.swift in Sources */,
 				7B2B351029F9326600D8085B /* Model.swift in Sources */,
 				7B7EBA752A028718003023C3 /* Extensions.swift in Sources */,
-				7B7EBA732A025714003023C3 /* ModelDataDelegate.swift in Sources */,
 				7B2B350029F6A50A00D8085B /* ViewController.swift in Sources */,
 				7B2B34FC29F6A50A00D8085B /* AppDelegate.swift in Sources */,
 				7B7EBA6C2A000D37003023C3 /* MovieDataTableViewCell.swift in Sources */,
